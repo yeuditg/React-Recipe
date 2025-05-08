@@ -27,8 +27,14 @@ const Login = ({ LoginSuccess }: { LoginSuccess: Function}) => {
             console.log(res.data); 
             LoginSuccess(true);
             navigate("showRecipes")
+<<<<<<< HEAD
         } catch (e:any) {
             console.error(e);
+=======
+        } catch (e) {
+            console.error(e);
+            // טיפול בשגיאות נוספות אם יש צורך
+>>>>>>> 0e4152768b3e371ad10c5b7380423d6246620152
         }
     };
 

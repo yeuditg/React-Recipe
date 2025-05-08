@@ -4,7 +4,11 @@ import Login from './components/Login';
 import LogUp from './components/LogUp';
 import ShowRecipes from './components/recipes/showRecipes';
 import AddRecipe from './components/addRecipe';
+<<<<<<< HEAD
 import Home from './components/home'
+=======
+import Home from './components/home';
+>>>>>>> 0e4152768b3e371ad10c5b7380423d6246620152
 import { useState } from 'react';
 import RecipeList from './components/recipes/RecipeList';
 

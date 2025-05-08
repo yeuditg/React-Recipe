@@ -35,7 +35,11 @@ const ShowRecipes = () => {
                 <Box flex={1} padding={13} style={{ overflowY: 'auto' }}>
                 </Box>
                 <img
+<<<<<<< HEAD
                     src='../assets/images/cokiess.png'
+=======
+                    src='src/images/cookiess.png'
+>>>>>>> 0e4152768b3e371ad10c5b7380423d6246620152
                     alt="Description of Image"
                     style={{
                         width: '100%',

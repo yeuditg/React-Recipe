@@ -16,14 +16,21 @@
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
     "axios": "^1.9.0",
+<<<<<<< HEAD
     "lucide-react": "^0.508.0",
+=======
+>>>>>>> 0e4152768b3e371ad10c5b7380423d6246620152
     "mobx": "^6.13.7",
     "mobx-react-lite": "^4.1.0",
     "mui": "^0.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.2",
+<<<<<<< HEAD
     "react-router-dom": "^7.6.0",
+=======
+    "react-router-dom": "^7.5.3",
+>>>>>>> 0e4152768b3e371ad10c5b7380423d6246620152
     "yup": "^1.6.1"
   },
   "devDependencies": {
