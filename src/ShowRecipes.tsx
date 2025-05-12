@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { CircularProgress, Card, CardContent, Typography, Grid, Button } from '@mui/material';
-import RecipeFilter from './FilterRecipe'; 
 import { type RecipeType } from './RecipeStory'; 
-import { Outlet, useNavigate } from 'react-router-dom'; // ייבוא
+import { Outlet, useNavigate } from 'react-router-dom';
+import FilterRecipe from './FilterRecipe';
 
 const ShowRecipes = () => {
     const [recipes, setRecipes] = useState<RecipeType[]>([]);
     const [loading, setLoading] = useState(false);
-    const [filterCategory, setFilterCategory] = useState('');
-    const [filterDuration, setFilterDuration] = useState('');
-    const [filterDifficulty, setFilterDifficulty] = useState('');
-    const [filterUserId, setFilterUserId] = useState('');
-    const navigate = useNavigate(); // יצירת משתנה ניווט
+    const [filterCategory, setFilterCategory] = useState<string>('');
+    const [filterDuration, setFilterDuration] = useState<number | string>('');
+    const [filterDifficulty, setFilterDifficulty] = useState<string>('');
+    const [filterUserId, setFilterUserId] = useState<number | string>('');
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); // הוספת anchorEl
+    const [open, setOpen] = useState(false); // הוספת open
+    const navigate = useNavigate();
 
     const fetchRecipes = async () => {
         setLoading(true);
@@ -33,11 +35,21 @@ const ShowRecipes = () => {
     const filteredRecipes = recipes.filter((recipe: RecipeType) => {
         return (
             (filterCategory ? recipe.Categoryid.toString() === filterCategory : true) &&
-            (filterDuration !== '' ? recipe.Duration.toString() <= filterDuration : true) &&
+            (filterDuration ? recipe.Duration <= Number(filterDuration) : true) &&
             (filterDifficulty ? recipe.Difficulty.toString() === filterDifficulty : true) &&
-            (filterUserId ? recipe.UserId === filterUserId : true)
+            (filterUserId ? recipe.UserId.toString() === filterUserId : true)
         );
     });
+
+    const handleFilterClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+        setAnchorEl(null);
+    };
 
     return (
         <div style={{ padding: '20px' }}>
@@ -45,19 +57,34 @@ const ShowRecipes = () => {
                 <CircularProgress />
             ) : (
                 <>
-                 <Outlet/>
-                    <RecipeFilter 
-                        filterCategory={filterCategory} 
-                        setFilterCategory={setFilterCategory} 
+                    <Outlet />
+                    <Button 
+                        variant="contained" 
+                        color="primary" 
+                        onClick={handleFilterClick} 
+                        style={{ marginBottom: '20px' }}
+                    >
+                        סנן מתכונים
+                    </Button>
+                    <FilterRecipe
+                        open={open}
+                        anchorEl={anchorEl}
+                        handleClose={handleClose}
+                        filterCategory={filterCategory}
+                        setFilterCategory={setFilterCategory}
+                        filterDuration={filterDuration}
+                        setFilterDuration={setFilterDuration}
                         filterDifficulty={filterDifficulty}
                         setFilterDifficulty={setFilterDifficulty}
                         filterUserId={filterUserId}
                         setFilterUserId={setFilterUserId}
+                        categories={[]} // הוסף את הקטגוריות שלך כאן
+                        myUser={false} // הוסף את המשתמש שלך כאן
                     />
                     <Button 
                         variant="contained" 
                         color="primary" 
-                        onClick={() => navigate('showRecipes/addRecipe')} 
+                        onClick={() => navigate('addRecipe')} 
                         style={{ marginBottom: '20px' }}
                     >
                         הוסף מתכון
@@ -76,18 +103,18 @@ const ShowRecipes = () => {
                                             <img src={recipe.Img} alt={recipe.Name} style={{ width: '100%', height: 'auto' }} />
                                             
                                             <Typography variant="h6" gutterBottom>מרכיבים</Typography>
-                                            {recipe.Ingridents && recipe.Ingridents.length > 0 ? (
+                                            {Array.isArray(recipe.Ingridents) && recipe.Ingridents.length > 0 ? (
                                                 recipe.Ingridents.map((ing) => (
                                                     <Typography key={`${recipe.Id}-${ing.Name}`} style={{ textAlign: 'right', position: 'relative' }}>
                                                         {ing.Name} - {ing.Count} {ing.Type}
                                                     </Typography>
                                                 ))
                                             ) : (
-                                                <li>אין מרכיבים זמינים</li>
+                                                <Typography>אין מרכיבים זמינים</Typography>
                                             )}
 
                                             <Typography variant="h6" gutterBottom>הוראות הכנה</Typography>
-                                            {recipe.Instructions && recipe.Instructions.length > 0 ? (
+                                            {Array.isArray(recipe.Instructions) && recipe.Instructions.length > 0 ? (
                                                 recipe.Instructions.map((instruction, idx) => (
                                                     <Typography key={idx} variant="body2">
                                                         {instruction.Name}
@@ -112,10 +139,10 @@ const ShowRecipes = () => {
                             <Typography variant="body1" textAlign="center">אין מתכונים זמינים.</Typography>
                         )}
                     </Grid>
-                   
                 </>
             )}
         </div>
     );
 };
+
 export default ShowRecipes;
