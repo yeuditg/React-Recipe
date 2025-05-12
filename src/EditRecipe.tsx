@@ -101,7 +101,7 @@ const EditRecipe = () => {
 
     try {
       await axios.post(`http://localhost:8080/api/recipe/delete/${id}`);
-      navigate('showRecipe');
+      alert("Recipe deleted successfully");
     } catch (error) {
       console.error('Error deleting recipe:', error);
     }
