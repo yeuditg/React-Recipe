@@ -100,7 +100,6 @@ const AddRecipe = () => {
           </TextField>
           <TextField label="URL לתמונה" name="Img" value={recipe.Img} onChange={handleChange} fullWidth />
           
-          {/* שדות עבור מצרכים */}
           {recipe.Ingridents.map((ing, index) => (
             <Box key={index}>
               <TextField label="שם מצרך" value={ing.Name} onChange={(e) => handleIngredientChange(index, "Name", e.target.value)} fullWidth error={!!errors[`ingredient${index}`]} helperText={errors[`ingredient${index}`]} />
