@@ -17,7 +17,7 @@ import {
   InputLabel,
   Snackbar,
 } from "@mui/material";
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import MuiAlert, { type AlertProps } from '@mui/material/Alert';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useForm, Controller, useFieldArray } from "react-hook-form";
@@ -218,7 +218,7 @@ const EditRecipe = () => {
                 </Grid>
               </Paper>
             ))}
-            <Button variant="contained" onClick={() => addIngredient({ Name: "", Count: "", Type: "" })} startIcon={<AddIcon />} sx={{ mb: 2, backgroundColor: '#FFD700', color: "blue" }}>הוסף מצרך</Button>
+            <Button variant="contained" onClick={() => addIngredient({ Name: "", Count: "", Type: "" })} startIcon={<AddIcon />} sx={{ mb: 2, backgroundColor: 'blur', color: "white" }}>הוסף מצרך</Button>
 
         
             <Typography variant="h6" sx={{ mt: 4 }}>הוראות הכנה</Typography>
@@ -236,9 +236,9 @@ const EditRecipe = () => {
                 </IconButton>
               </Box>
             ))}
-            <Button variant="contained" onClick={() => addInstruction({ Name: "" })} startIcon={<AddIcon />} sx={{ mb: 2, backgroundColor: '#FFD700', color: "red" }}>הוסף הוראה</Button>
+            <Button variant="contained" onClick={() => addInstruction({ Name: "" })} startIcon={<AddIcon />} sx={{ mb: 2, backgroundColor: 'blur', color: "white" }}>הוסף הוראה</Button>
 
-            <Button variant="contained" type="submit" fullWidth sx={{ backgroundColor: '#FFD700', color: "blue", mt: 2 }}>
+            <Button variant="contained" type="submit" fullWidth sx={{ backgroundColor: 'blur', color: "white", mt: 2 }}>
               שמור מתכון
             </Button>
           </form>
