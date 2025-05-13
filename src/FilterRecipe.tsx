@@ -66,11 +66,12 @@ const FilterRecipe: React.FC<FilterProps> = ({
           variant="outlined"
         >
           <MenuItem value="">קטגוריות</MenuItem>
-            {categories.map((category:any) => (
+          {categories.length > 0 ? (
+            categories.map((category) => (
               <MenuItem key={category.Id} value={category.Id}>
                 {category.Name}
               </MenuItem>
-            ))}
+            ))
           ) : (
             <MenuItem disabled>אין קטגוריות זמינות</MenuItem>
           )}
