@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
@@ -31,17 +31,14 @@ const EditRecipe = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(`Fetching recipe with ID: ${id}`);
         const [recipeRes, categoriesRes] = await Promise.all([
           axios.get(`http://localhost:8080/api/recipe/${id}`),
           axios.get("http://localhost:8080/api/category"),
         ]);
-        console.log(recipeRes.data);
         setRecipe(recipeRes.data);
         setCategories(categoriesRes.data);
       } catch (err) {
         setError("שגיאה בטעינת הנתונים");
-        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -60,7 +57,7 @@ const EditRecipe = () => {
     }));
   };
 
-  const removeIngredient = (index:any) => {
+  const removeIngredient = (index) => {
     const updatedIngredients = recipe.Ingridents.filter((_, i) => i !== index);
     setRecipe(prev => ({ ...prev, Ingridents: updatedIngredients }));
   };
@@ -72,16 +69,13 @@ const EditRecipe = () => {
       alert("לא ניתן למצוא את בעל המתכון.");
       return;
     }
-    console.log(`Current User ID: ${currentUserId}`);
-    console.log(`Recipe Owner ID: ${recipeOwnerId}`);
 
     if (String(currentUserId) !== String(recipeOwnerId)) {
       alert("אין לך הרשאה לערוך את המתכון הזה.");
       return;
     }
     try {
-      console.log("Saving recipe:", recipe);
-      await axios.post<any>(`http://localhost:8080/api/recipe/edit`, recipe);
+      await axios.post(`http://localhost:8080/api/recipe/edit`, recipe);
       navigate('/');
     } catch (error) {
       console.error('Error saving recipe:', error);
@@ -91,8 +85,6 @@ const EditRecipe = () => {
   const handleDelete = async () => {
     const currentUserId = sessionStorage.getItem("userId");
     const recipeOwnerId = recipe ? recipe.UserId : null;
-    console.log(`Current User ID (Delete): ${currentUserId}`);
-    console.log(`Recipe Owner ID (Delete): ${recipeOwnerId}`);
 
     if (currentUserId != recipeOwnerId) {
       alert("אין לך הרשאה למחוק את המתכון הזה.");
@@ -124,8 +116,8 @@ const EditRecipe = () => {
   }
 
   return (
-    <Container maxWidth="md" sx={{ bgcolor: '#fafafa', p: 4, borderRadius: 2 }}>
-      <Typography variant="h4" align="center" gutterBottom>עריכת מתכון</Typography>
+    <Container maxWidth="md" sx={{ bgcolor: '#fafafa', p: 4, borderRadius: 2, opacity: "80%" }} >
+      <Typography variant="h4" align="center" gutterBottom color="gold">עריכת מתכון</Typography>
       <Typography variant="h6" align="center">בעל המתכון: {recipe.UserId}</Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -157,15 +149,33 @@ const EditRecipe = () => {
               value={recipe.Categoryid ? recipe.Categoryid.toString() : ''}
               onChange={(e) => handleChange(e, "Categoryid")}
             >
-              {categories.map((item:any) => (
+              {categories.map((item) => (
                 <MenuItem key={item.Id} value={item.Id}>{item.Name}</MenuItem>
               ))}
             </Select>
           </FormControl>
         </Grid>
         <Grid item xs={12}>
+          <TextField
+            label="דרגת קושי"
+            value={recipe.Difficulty}
+            onChange={(e) => handleChange(e, "Difficulty")}
+            fullWidth
+            variant="outlined"
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            label="משך זמן הכנה (דקות)"
+            value={recipe.Duration}
+            onChange={(e) => handleChange(e, "Duration")}
+            fullWidth
+            variant="outlined"
+          />
+        </Grid>
+        <Grid item xs={12}>
           <Typography variant="h6">מצרכים</Typography>
-          {recipe.Ingridents.map((ingredient:any, index:any) => (
+          {recipe.Ingridents.map((ingredient, index) => (
             <Paper key={index} variant="outlined" sx={{ mb: 2, p: 2 }}>
               <Grid container spacing={2}>
                 <Grid item xs={4}>
@@ -215,4 +225,3 @@ const EditRecipe = () => {
 };
 
 export default EditRecipe;
-
